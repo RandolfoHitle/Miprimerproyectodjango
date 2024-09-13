@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Listado de Municipios</h1>
+  <table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Departamento</th>
+            <th>Código</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for municipio in municipios %}
+        <tr>
+            <td>{{ municipio.nombre }}</td>
+            <td>{{ municipio.departamento.nombre }}</td>
+            <td>{{ municipio.codigo }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'municipio_create' %}">Agregar Municipio</a>
+{% endblock %}

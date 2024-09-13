@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Listado de Departamentos</h1>
+  <table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Pais</th>
+            <th>Código</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for deparmento in departamentos %}
+        <tr>
+            <td>{{ deparmento.nombre }}</td>
+            <td>{{ deparmento.pais.nombre }}</td>
+            <td>{{ deparmento.codigo }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'departamento_create' %}">Agregar Departamento</a>
+{% endblock %}
