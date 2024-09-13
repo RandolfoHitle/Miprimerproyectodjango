@@ -24,6 +24,7 @@ class DepartamentoListView(LoginRequiredMixin, PermissionRequiredMixin, ListView
     context_object_name = 'departamentos'
     login_url = reverse_lazy('login')
     permission_required = 'catalogos_view_departamento'
+    
 
 
 class PaisCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -35,13 +36,28 @@ class PaisCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'catalogos.add_pais'
 
 
-class DepartamentoreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class DepartamentoCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Departamento
     form_class = DepartamentoForm
     template_name = 'pais/pais_form.html'
     success_url = reverse_lazy('departamento_list')
     login_url = reverse_lazy('login')
     permission_required = 'catalogos.add_departamento'
+
+class DepartamentoUpdateView(UpdateView):
+    model = Departamento
+    form_class = DepartamentoForm
+    template_name = 'departamento/departamento_form.html'
+    success_url = reverse_lazy('departamento-list')
+    login_url = reverse_lazy('login')
+    permission_required = 'catalogos.add_departamento'
+
+class DepartamentoDeleteView(DeleteView):
+    model = Departamento
+    template_name = 'departamento/departamento_confirm_delete.html'
+    success_url = reverse_lazy('departamento-list')
+    login_url = reverse_lazy('login')
+    permission_required = 'catalogos.add_departamento'    
 
 
 

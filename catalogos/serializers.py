@@ -8,3 +8,13 @@ class PaisSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pais
         fields = ['nombre', 'codigo']
+
+class DepartamentoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Departamento
+        fields = ['nombre', 'pais', 'codigo','active']
+
+class MunicipioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pais
+        fields = ['nombre', 'departamento', 'codigo', 'active']                
