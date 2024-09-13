@@ -1,12 +1,44 @@
-{% extends "base.html" %}
 
-{% block content %}
-  <h1>Listado de Países</h1>
-  <ul>
-    {% for pais in paises %}
-      <li>{{ pais.nombre }} ({{ pais.codigo }}) - <a href="{% url 'pais_update' pais.pk %}">Editar</a> | <a href="{% url 'pais_delete' pais.pk %}">Eliminar</a></li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'pais_create' %}">Agregar País</a>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pais{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<form method="get" action="{% url 'pais_list' %}">
+  <input type="text" name="q" placeholder="Buscar" value="{{ request.GET.q }}">
+  <button type="submit">Buscar</button>
+</form>
 
+<ul>
+  {% for pais in paises %}
+      <li>{{ pais.nombre }}</li>
+  {% empty %}
+      <li>No se encontraron resultados.</li>
+  {% endfor %}
+</ul>
+
+<div class="pagination">
+  <span class="step-links">
+      {% if page_obj.has_previous %}
+          <a href="?q={{ request.GET.q }}&page=1">&laquo; primera</a>
+          <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">anterior</a>
+      {% endif %}
+
+      <span class="current">
+          Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+          <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">siguiente</a>
+          <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+      {% endif %}
+  </span>
+</div>
+<body>
+</head>
+</html>

@@ -1,24 +1,46 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}municipio{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
 
-{% block content %}
-  <h1>Listado de Municipios</h1>
-  <table class="table">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Departamento</th>
-            <th>Código</th>
-        </tr>
-    </thead>
-    <tbody>
+    
+    <form method="get" action="{% url 'municipio_list' %}">
+        <input type="text" name="q" placeholder="Buscar" value="{{ request.GET.q }}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    
+    <ul>
         {% for municipio in municipios %}
-        <tr>
-            <td>{{ municipio.nombre }}</td>
-            <td>{{ municipio.departamento.nombre }}</td>
-            <td>{{ municipio.codigo }}</td>
-        </tr>
+            <li>{{ municipio.nombre }}</li>
+        {% empty %}
+            <li>No se encontraron resultados.</li>
         {% endfor %}
-    </tbody>
-  </table>
-  <a href="{% url 'municipio_create' %}">Agregar Municipio</a>
-{% endblock %}
+    </ul>
+
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?q={{ request.GET.q }}&page=1">&laquo; primera</a>
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">siguiente</a>
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>
